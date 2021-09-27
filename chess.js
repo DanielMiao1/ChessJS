@@ -3270,7 +3270,7 @@ class Piece {
 			// Straight pawn moves
 			// Check if pawn is blocked
 			for (i of this.board.pieces) {
-				if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] - (this.color == enums.Color.white ? 1 : -1), functions.coordinateToIndex(this.position)[1]])) {
+				if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - (this.color == enums.Color.white ? 1 : -1), functions.coordinateToIndex(this.position)[1]])) {
 					valid = false;
 					break; // Exit from loop
 				};
@@ -3285,7 +3285,7 @@ class Piece {
 					// Check if pawn double move is blocked
 					valid = true; // Reset valid
 					for (i of this.board.pieces) {
-						if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] - (this.color == enums.Color.white ? 2 : -2), functions.coordinateToIndex(this.position)[1]])) {
+						if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - (this.color == enums.Color.white ? 2 : -2), functions.coordinateToIndex(this.position)[1]])) {
 							valid = false;
 							break; // Exit from loop
 						};
@@ -3304,7 +3304,7 @@ class Piece {
 			if (this.color == enums.Color.white) { // For white pawns
 				// Check for left diagonal captures
 				for (i of this.board.pieces) {
-					if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]) && i.color == enums.Color.black) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]) && i.color == enums.Color.black) {
 						capture_found = true; // Make capture_found true
 						break; // Exit from loop
 					};
@@ -3319,7 +3319,7 @@ class Piece {
 				capture_found = false; // Reset capture_found variable
 				// Check for right diagonal captures
 				for (i of this.board.pieces) {
-					if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]) && i.color == enums.Color.black) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]) && i.color == enums.Color.black) {
 						capture_found = true; // Make capture_found true
 						break; // Exit from loop
 					};
@@ -3334,7 +3334,7 @@ class Piece {
 			} else { // For black pawns
 				// Check for left diagonal captures
 				for (i of this.board.pieces) {
-					if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]) && i.color == enums.Color.white) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]) && i.color == enums.Color.white) {
 						capture_found = true  // Make capture_found true
 						break // Exit from loop
 					};
@@ -3349,7 +3349,7 @@ class Piece {
 				capture_found = false // Reset capture_found variable
 				// Check for right diagonal captures
 				for (i of this.board.pieces) {
-					if (JSON.stringify(functions.coordinateToIndex(i.position)) == JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]) && i.color == enums.Color.white) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]) && i.color == enums.Color.white) {
 						capture_found = true; // Make capture_found true
 						break; // Exit from loop
 					};
@@ -3362,105 +3362,152 @@ class Piece {
 					};
 				};
 			};
-		};
-		/*} else if (this.piece_type == enums.Piece.knight) { // Knight moves
-			found, valid = false, true
-			if this.position[1] not in "78" && this.position[0] != "a":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]))
-			found, valid = false, true
-			if this.position[1] not in "12" && this.position[0] != "a":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]))
-			found, valid = false, true
-			if this.position[1] not in "78" && this.position[0] != "h":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]))
-			found, valid = false, true
-			if this.position[1] not in "12" && this.position[0] != "h":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]))
-			found, valid = false, true
-			if this.position[1] != "8" && this.position[0] not in "ab":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]))
-			found, valid = false, true
-			if this.position[1] != "1" && this.position[0] not in "ab":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]))
-			found, valid = false, true
-			if this.position[1] != "1" && this.position[0] not in "gh":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]))
-			found, valid = false, true
-			if this.position[1] != "8" && this.position[0] not in "gh":
-				for i in this.board.pieces:
-					if functions.coordinateToIndex(i.position) == [functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]:
-						if i.color == this.color:
-							valid = false
-						found = true
-				if valid:
-					if show_data:
-						moves.push(new enums.Move("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]), this, is_capture=found))
-					else:
-						moves.push("N" + ("x" if found else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]))
-		} else if (this.piece_type == enums.Piece.bishop) { // Bishop moves
+		} else if (this.piece_type === enums.Piece.knight) { // Knight moves
+			let found = false, valid = true;
+			if (this.position[1] !== "7" && this.position[1] !== "8" && this.position[0] !== "a") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] - 1]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "1" && this.position[1] !== "2" && this.position[0] !== "a") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] - 1]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "7" && this.position[1] !== "8" && this.position[0] !== "h") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 2, functions.coordinateToIndex(this.position)[1] + 1]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "1" && this.position[1] !== "2" && this.position[0] !== "h") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 2, functions.coordinateToIndex(this.position)[1] + 1]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "8" && this.position[0] !== "a" && this.position[0] !== "b") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 2]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "1" && this.position[0] !== "a" && this.position[0] !== "b") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 2]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "1" && this.position[0] !== "g" && this.position[0] !== "h") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 2]))
+					};
+				};
+			};
+			found = false, valid = true;
+			if (this.position[1] !== "8" && this.position[0] !== "g" && this.position[0] !== "h") {
+				for (i of this.board.pieces) {
+					if (JSON.stringify(functions.coordinateToIndex(i.position)) === JSON.stringify([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2])) {
+						if (i.color === this.color) {
+							valid = false;
+						};
+						found = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]), this, found))
+					} else {
+						moves.push("N" + (found ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 2]))
+					};
+				};
+			};
+		} /*else if (this.piece_type == enums.Piece.bishop) { // Bishop moves
 			capture = false
 			pos1, pos2 = functions.coordinateToIndex(this.position)
 			while pos1 != 0 && pos2 != 0:
@@ -3472,7 +3519,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3490,7 +3537,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3508,7 +3555,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3526,7 +3573,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("B" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3543,7 +3590,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, is_capture=capture))
+						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
 					else:
 						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
 					if capture:
@@ -3559,7 +3606,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, is_capture=capture))
+						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
 					else:
 						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
 					if capture:
@@ -3575,7 +3622,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, is_capture=capture))
+						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
 					else:
 						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
 					if capture:
@@ -3591,7 +3638,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, is_capture=capture))
+						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
 					else:
 						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
 					if capture:
@@ -3610,7 +3657,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3628,7 +3675,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3646,7 +3693,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3664,7 +3711,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]), this.position, functions.indexToCoordinate([pos1, pos2]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([pos1, pos2]))
 					if capture:
@@ -3680,7 +3727,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
 					if capture:
@@ -3696,7 +3743,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
 					if capture:
@@ -3712,7 +3759,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
 					if capture:
@@ -3728,7 +3775,7 @@ class Piece {
 						capture = true
 				else:
 					if show_data:
-						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, is_capture=capture))
+						moves.push(new enums.Move("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
 					else:
 						moves.push("Q" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
 					if capture:
@@ -3741,7 +3788,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] + 1]))
 					else:
@@ -3754,7 +3801,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] - 1]))
 					else:
@@ -3767,7 +3814,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1] - 1]))
 					else:
@@ -3780,7 +3827,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1] + 1]))
 					else:
@@ -3793,7 +3840,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] - 1]))
 					else:
@@ -3806,7 +3853,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], functions.coordinateToIndex(this.position)[1] + 1]))
 					else:
@@ -3819,7 +3866,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] + 1, functions.coordinateToIndex(this.position)[1]]))
 					else:
@@ -3832,7 +3879,7 @@ class Piece {
 					if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]])):
 						if this.board.pieceAt(functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]])).color != this.color:
 							if show_data:
-								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]]), this, is_capture=true))
+								moves.push(new enums.Move("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]]), this, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]]), this, true))
 							else:
 								moves.push("Kx" + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0] - 1, functions.coordinateToIndex(this.position)[1]]))
 					else:
@@ -3904,8 +3951,9 @@ class Game {
 			this.error(Error("Invalid move"));
 			return;
 		};
-		let found = false; // Set value for found
+		let found = false, move_data; // Set value for found
 		for (i of this.legal_moves(true)) {
+			move_data = i;
 			let i_copy = i;
 			if (i.name == move && i.piece.color == this.turn) {
 				if (i.is_capture) {
@@ -3934,6 +3982,7 @@ class Game {
 					this.opening = i["eco"] + " " + i["name"];
 				};
 			};
+			return move_data
 		} else { // Otherwise
 			this.error(Error("Invalid move")); // Raise error
 		};
@@ -3990,7 +4039,7 @@ class Game {
 	};
 
 	attackers(coordinate, color) {
-		/* Returns the pieces that attack the coordinate */
+		/* Returns the pieces that attack a coordinate */
 		if (![enums.Color.white, enums.Color.black].includes(color)) {
 			this.error(Error("Invalid Color"));
 		};
@@ -4003,10 +4052,11 @@ class Game {
 				if ([[functions.coordinateToIndex(i.position)[0] - (i.color == enums.Color.white ? 1 : -1), functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0] - (i.color == enums.Color.white ? 1 : -1), functions.coordinateToIndex(i.position)[1] + 1]].includes(functions.coordinateToIndex(coordinate))) {
 					attackers.push(i);
 				};
+			} else if (i.piece_type == enums.Piece.king) {
+			 	if ([[functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1]], [functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1] + 1], [functions.coordinateToIndex(i.position)[0], functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0], functions.coordinateToIndex(i.position)[1] + 1], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1]], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1] + 1]].includes(functions.coordinateToIndex(coordinate))) {
+			 		attackers.push(i);
+				};
 			};
-			// elif i.piece_type == enums.Piece.king:
-			// 	if functions.coordinateToIndex(coordinate) in [[functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1]], [functions.coordinateToIndex(i.position)[0] - 1, functions.coordinateToIndex(i.position)[1] + 1], [functions.coordinateToIndex(i.position)[0], functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0], functions.coordinateToIndex(i.position)[1] + 1], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1] - 1], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1]], [functions.coordinateToIndex(i.position)[0] + 1, functions.coordinateToIndex(i.position)[1] + 1]]:
-			// 		attackers.push(i)
 			for (x of i.moves()) {
 				if (x.includes(coordinate)) {
 					attackers.append(i);
