@@ -1,5 +1,5 @@
 /*
-Functions
+Openings (3091 lines)
 */
 
 var openings = [
@@ -3090,6 +3090,10 @@ var openings = [
   {"eco": "D99", "name": "Grünfeld Defense: Russian Variation, Yugoslav Variation", "moves": "1. d4 Nf6 2. c4 g6 3. Nc3 d5 4. Nf3 Bg7 5. Qb3 dxc4 6. Qxc4 O-O 7. e4 Bg4 8. Be3 Nfd7 9. Qb3 c5"}
 ]
 
+/*
+Functions
+*/
+
 var x, y, i
 
 class functions {
@@ -3616,72 +3620,104 @@ class Piece {
 					break;
 				};
 			};
-		} /*else if (this.piece_type == enums.Piece.rook) { // Rook moves
-			capture = false
-			for x in reversed(range(functions.coordinateToIndex(this.position)[0])):
-				for y in this.board.pieces:
-					if functions.coordinateToIndex(y.position) == [x, functions.coordinateToIndex(this.position)[1]]:
-						if y.color == this.color:
-							break
-						capture = true
-				else:
-					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
-					else:
-						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
-					if capture:
-						break
-					continue
-				break
-			capture = false
-			for x in reversed(range(functions.coordinateToIndex(this.position)[1])):
-				for y in this.board.pieces:
-					if functions.coordinateToIndex(y.position) == [functions.coordinateToIndex(this.position)[0], x]:
-						if y.color == this.color:
-							break
-						capture = true
-				else:
-					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
-					else:
-						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
-					if capture:
-						break
-					continue
-				break
-			capture = false
-			for x in range(functions.coordinateToIndex(this.position)[0] + 1, 8):
-				for y in this.board.pieces:
-					if functions.coordinateToIndex(y.position) == [x, functions.coordinateToIndex(this.position)[1]]:
-						if y.color == this.color:
-							break
-						capture = true
-				else:
-					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture))
-					else:
-						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]))
-					if capture:
-						break
-					continue
-				break
-			capture = false
-			for x in range(functions.coordinateToIndex(this.position)[1] + 1, 8):
-				for y in this.board.pieces:
-					if functions.coordinateToIndex(y.position) == [functions.coordinateToIndex(this.position)[0], x]:
-						if y.color == this.color:
-							break
-						capture = true
-				else:
-					if show_data:
-						moves.push(new enums.Move("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture))
-					else:
-						moves.push("R" + ("x" if capture else "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]))
-					if capture:
-						break
-					continue
-				break
-		} else if (this.piece_type == "queen") { // Queen moves
+		} else if (this.piece_type == enums.Piece.rook) { // Rook moves
+			let capture = false, valid = true;
+			// Downward moves
+			if (this.position[1] !== "1") {
+				for (x of Array.apply(undefined, Array(8 - functions.coordinateToIndex(this.position)[0] - 1)).map(function (_, i) {return i + functions.coordinateToIndex(this.position)[0] + 1}.bind(this))) {
+					for (y of this.board.pieces) {
+						if (y.position === functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]])) {
+							if (y.color === this.color) {
+								valid = false;
+								break;
+							};
+							capture = true;
+						};
+					};
+					if (valid) {
+						if (show_data) {
+							moves.push(new enums.Move("R" + (capture ? "x" : "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture));
+						} else {
+							moves.push("R" + (capture ? "x" : "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]));
+						};
+					};
+					if (!valid || capture) {
+					  break;
+					};
+				};
+			};
+			// Upward moves
+			capture = false, valid = true;
+			for (x of Array.apply(undefined, Array(functions.coordinateToIndex(this.position)[0])).map(function (_, i) {return i}).reverse()) {
+				for (y of this.board.pieces) {
+					if (y.position === functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]])) {
+						if (y.color === this.color) {
+							valid = false;
+							break;
+						};
+					capture = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("R" + (capture ? "x" : "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this.position, functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]), this, capture));
+					} else {
+						moves.push("R" + (capture ? "x" : "") + functions.indexToCoordinate([x, functions.coordinateToIndex(this.position)[1]]));
+					};
+				};
+				if (!valid || capture) {
+					break;
+				};
+			};
+			capture = false, valid = true;
+			// Rightward moves
+			if (this.position[0] !== "h") {
+				for (x of Array.apply(undefined, Array(8 - functions.coordinateToIndex(this.position)[1] - 1)).map(function (_, i) {return i + functions.coordinateToIndex(this.position)[1] + 1}.bind(this))) {
+					for (y of this.board.pieces) {
+						if (y.position === functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x])) {
+							if (y.color === this.color) {
+								valid = false;
+								break;
+							};
+							capture = true;
+						};
+					};
+					if (valid) {
+						if (show_data) {
+							moves.push(new enums.Move("R" + (capture ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture));
+						} else {
+							moves.push("R" + (capture ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]));
+						};
+					};
+					if (!valid || capture) {
+					  break;
+					};
+				};
+			};
+			// Leftward moves
+			capture = false, valid = true;
+			for (x of Array.apply(undefined, Array(functions.coordinateToIndex(this.position)[1])).map(function (_, i) {return i}).reverse()) {
+				for (y of this.board.pieces) {
+					if (y.position === functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x])) {
+						if (y.color === this.color) {
+							valid = false;
+							break;
+						};
+					capture = true;
+					};
+				};
+				if (valid) {
+					if (show_data) {
+						moves.push(new enums.Move("R" + (capture ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this.position, functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]), this, capture));
+					} else {
+						moves.push("R" + (capture ? "x" : "") + functions.indexToCoordinate([functions.coordinateToIndex(this.position)[0], x]));
+					};
+				};
+				if (!valid || capture) {
+					break;
+				};
+			};
+		} /*else if (this.piece_type == "queen") { // Queen moves
 			capture = false
 			pos1, pos2 = functions.coordinateToIndex(this.position)
 			while pos1 != 0 && pos2 != 0:
